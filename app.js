@@ -14,27 +14,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const knex = require("knex")({
-  client: "postgresql",
-  connection: {
-    database: process.env.DATABASE,
-    user: process.env.USERNAME,
-    password: process.env.PASSWORD,
-  },
-});
-
 const metadataRouter = require("./routers/MetadataRouter")(express);
+const transactionRouter = require("./routers/transactionRouter")(express);
 app.use("/", metadataRouter);
-
-// const CovidService = require("./services/CovidService");
-// const CovidRouter = require("./routers/CovidRouter");
-
-// const covidService = new CovidService();
-
-// app.use("/api/covid/", new CovidRouter(covidService).router());
+app.use("/transaction", transactionRouter);
 
 app.listen(port, () => {
-  console.log(`Application listening to port ${port}`);
+	console.log(`Application listening to port ${port}`);
 });
 
 module.exports.app = app;
