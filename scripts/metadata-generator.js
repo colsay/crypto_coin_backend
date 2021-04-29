@@ -13,8 +13,9 @@ prompt.get(
     console.log(result.name);
     var obj = new Object();
     obj.name = result.name;
-    obj.image = result.imageurl;
+    obj.image = result.image;
     obj.description = result.description;
+    obj.external_url = result.external_url;
 
     //convert object to json string
     var string = JSON.stringify(obj);
