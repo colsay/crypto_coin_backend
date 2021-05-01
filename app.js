@@ -15,12 +15,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const metadataRouter = require("./routers/MetadataRouter")(express);
-const transactionRouter = require("./routers/transactionRouter")(express);
+const cchTransactionRouter = require("./routers/transactionRouter")(express);
+const nftItemRouter = require("./routers/NftItemRouter")(express);
+// const nftTransactionRouter = require("./routers/NftTransactionRouter")(express);
 app.use("/", metadataRouter);
-app.use("/transaction", transactionRouter);
+app.use("/", nftItemRouter);
+// app.use("/", nftTransactionRouter);
+app.use("/transaction", cchTransactionRouter);
 
 app.listen(port, () => {
-	console.log(`Application listening to port ${port}`);
+  console.log(`Application listening to port ${port}`);
 });
 
 module.exports.app = app;

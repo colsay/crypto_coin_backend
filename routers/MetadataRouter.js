@@ -15,7 +15,7 @@ module.exports = (express) => {
     console.log("reached metadata backend");
     console.log(req.params.tokenId);
     return metadataService
-      .listData(req.params.tokenId)
+      .listMetadata(req.params.tokenId)
       .then((data) => {
         res.json(data);
       })
@@ -25,9 +25,11 @@ module.exports = (express) => {
   function postMetadata(req, res) {
     console.log("posting metadata");
     return metadataService
-      .addData(
+      .addMetadata(
         req.params.tokenId,
         req.body.name,
+        req.body.collection,
+        req.body.asset_id,
         req.body.image,
         req.body.description,
         req.body.external_url
