@@ -1,8 +1,10 @@
 exports.up = function (knex) {
   return knex.schema.createTable("metadata", (table) => {
-    table.increments("id");
+    table.increments();
     table.integer("token_id").unique();
     table.varchar("name");
+    table.varchar("collection");
+    table.string("asset_id");
     table.text("image");
     table.text("description");
     table.text("external_url");
