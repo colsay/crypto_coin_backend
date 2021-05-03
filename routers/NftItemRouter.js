@@ -13,6 +13,8 @@ module.exports = (express) => {
 
   router.route("/api/:tokenId").get(getNftInfo).post(postNftInfo);
 
+  router.route("/profile/:address").get(getOwnerTransaction);
+
   function getNftInfo(req, res) {
     function getItemVariables() {
       console.log("reached item variables backend");
@@ -44,6 +46,18 @@ module.exports = (express) => {
         console.log(nftItem);
         console.log(nftTransaction);
         res.send({ item: nftItem, transaction: nftTransaction });
+      })
+      .catch((err) => res.status(500).json(err));
+  }
+
+  function getOwnerTransaction(req, res) {
+    let address = req.params.address;
+    console.log("reached NFT owner transaction backend", req.params.address);
+    return nftTransactionService
+      .getNftOwnerTransaction(address)
+      .then((data) => {
+        console.log("user NFT transaction", data);
+        res.send(data);
       })
       .catch((err) => res.status(500).json(err));
   }

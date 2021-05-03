@@ -21,7 +21,7 @@ module.exports = class NftTransferService {
   }
 
   getNftOwnerTransaction(address) {
-    console.log("hi", tokenId);
+    console.log("hi", address);
     let query = this.knex
       .select(
         "nft_transaction.from_address",
