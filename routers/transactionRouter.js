@@ -6,7 +6,7 @@ module.exports = (express) => {
 
 	// Knex Setup
 	const CchSql = require("../services/cchTransferService");
-	const cchsql = new CchSql("transaction");
+	const cchsql = new CchSql("cch_transaction");
 
 	const getTransaction = (req, res) => {
 		let address = req.params.address;

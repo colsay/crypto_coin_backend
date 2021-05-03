@@ -24,7 +24,7 @@ app.use("/", nftItemRouter);
 app.use("/transaction", cchTransactionRouter);
 
 app.listen(port, () => {
-  console.log(`Application listening to port ${port}`);
+	console.log(`Application listening to port ${port}`);
 });
 
 module.exports.app = app;
