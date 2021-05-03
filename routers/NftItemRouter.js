@@ -11,10 +11,7 @@ module.exports = (express) => {
   const NftTransactionService = require("../services/NftTransactionService");
   const nftTransactionService = new NftTransactionService(knex);
 
-  router
-    .route("/:tokenId")
-    //   .get(getNftInfo)
-    .post(postNftInfo);
+  router.route("/api/:tokenId").get(getNftInfo).post(postNftInfo);
 
   function getNftInfo(req, res) {
     function getItemVariables() {
@@ -32,7 +29,7 @@ module.exports = (express) => {
       console.log("reached NFT transaction history backend");
       console.log(req.params.tokenId);
       return nftTransactionService
-        .getNftTransaction(req.params.tokenId)
+        .getNftTokenTransaction(req.params.tokenId)
         .then((data) => {
           return data;
         })

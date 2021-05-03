@@ -21,7 +21,7 @@ const nftItemRouter = require("./routers/NftItemRouter")(express);
 app.use("/", metadataRouter);
 app.use("/", nftItemRouter);
 // app.use("/", nftTransactionRouter);
-app.use("/transaction", cchTransactionRouter);
+app.use("/", cchTransactionRouter);
 
 app.listen(port, () => {
   console.log(`Application listening to port ${port}`);

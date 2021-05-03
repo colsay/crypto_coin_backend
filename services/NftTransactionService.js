@@ -3,7 +3,7 @@ module.exports = class NftTransferService {
     this.knex = knex;
   }
 
-  getNftTransaction(tokenId) {
+  getNftTokenTransaction(tokenId) {
     console.log("hi", tokenId);
     let query = this.knex
       .select(
@@ -13,7 +13,26 @@ module.exports = class NftTransferService {
         "nft_transaction.created_at"
       )
       .from("nft_transaction")
-      .where("nft_transaction.token_id", tokenId);
+      .where("nft_transaction.token_id", tokenId)
+      .orderBy("created_at", "desc");
+    return query.then((data) => {
+      return data;
+    });
+  }
+
+  getNftOwnerTransaction(address) {
+    console.log("hi", tokenId);
+    let query = this.knex
+      .select(
+        "nft_transaction.from_address",
+        "nft_transaction.to_address",
+        "nft_transaction.price",
+        "nft_transaction.created_at"
+      )
+      .from("nft_transaction")
+      .where("nft_transaction.from_address", address)
+      .orWhere("nft_transaction.to_address", address)
+      .orderBy("created_at", "desc");
     return query.then((data) => {
       return data;
     });

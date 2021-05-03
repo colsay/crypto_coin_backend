@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable("nft_transaction", (table) => {
     table.increments();
-    table.integer("token_id").unique();
+    table.integer("token_id");
     table.string("from_address");
     table.string("to_address");
     table.decimal("price", 14, 4);
