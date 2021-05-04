@@ -26,4 +26,25 @@ module.exports = class NftItemService {
       current_price: currentPrice,
     });
   }
+
+  updateNftData(tokenId, owner, on_sale, currentPrice) {
+    return this.knex("nft_variables").where("token_id", tokenId).update({
+      owner: owner,
+      on_sale: on_sale,
+      current_price: currentPrice,
+    });
+  }
+
+  removeNftData(tokenId) {
+    return this.knex("nft_transaction")
+      .where("token_id", tokenId)
+      .del()
+      .then(() => {
+        return this.knex("nft_variables").where("token_id", tokenId).del();
+      })
+      .then(() => {
+        return this.knex("metadata").where("token_id", tokenId).del();
+      })
+      .catch((err) => console.error(err));
+  }
 };
