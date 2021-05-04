@@ -62,6 +62,22 @@ module.exports = (express) => {
       .catch((err) => res.status(500).json(err));
   }
 
+  function postItemVariables() {
+    console.log("posting item variables");
+    let inputPrice = parseFloat(req.body.current_price).toFixed(4);
+    console.log(inputPrice);
+    return nftItemService
+      .addNftData(
+        req.body.token_id,
+        req.body.creator,
+        req.body.owner,
+        req.body.on_sale,
+        inputPrice
+      )
+      .then(() => console.log("Post item success"))
+      .catch((err) => res.status(500).json(err));
+  }
+
   function postNftInfo(req, res) {
     function postItemVariables() {
       console.log("posting item variables");
