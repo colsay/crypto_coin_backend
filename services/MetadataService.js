@@ -53,8 +53,8 @@ module.exports = class MetadataService {
   }
 
   filterMetadata(statusArr, collecArr) {
-    console.log("statusArr");
-    console.log(statusArr);
+    // console.log("statusArr");
+    // console.log(statusArr);
     let query = this.knex
       .select("*")
       .from("metadata")
@@ -76,14 +76,17 @@ module.exports = class MetadataService {
       query;
     }
 
-    // if (statusArr.indexOf("Listed On Sale") > -1) {
-    //   query.where("nft_variables.on_sale", true);
-    // } else {
-    //   query;
-    // }
+    if (statusArr.indexOf("Listed on Sale") > -1) {
+      console.log("listed on sale");
 
-    console.log(query._statements);
-    console.log("query");
+      query.where("nft_variables.on_sale", true);
+    } else {
+      query;
+    }
+
+    // console.log(query._statements);
+    // console.log("query");
+
     // query.where("collection", "shoes");
 
     // switch (expr) {
