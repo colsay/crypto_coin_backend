@@ -11,7 +11,12 @@ module.exports = (express) => {
 	const NftItemService = require("../services/NftItemService");
 	const nftItemService = new NftItemService(knex);
 
-	router.route("/profile").get(getMetadata).post(postNftData);
+	router
+		.route("/profile")
+		.get(getMetadata)
+		.post(postNftData)
+		.put(putNftData)
+		.delete(burnNft);
 
 	function getMetadata(req, res) {
 		console.log("reached metadata backend");
@@ -59,6 +64,26 @@ module.exports = (express) => {
 			.then(() => {
 				console.log("Post promise successful");
 			})
+			.catch((err) => res.status(500).json(err));
+	}
+
+	function putNftData(req, res) {
+		console.log(req.body);
+		return nftItemService
+			.updateNftData(
+				req.body.token_id,
+				req.body.owner,
+				req.body.on_sale,
+				req.body.current_price
+			)
+			.then(() => console.log("put success"))
+			.catch((err) => res.status(500).json(err));
+	}
+	function burnNft(req, res) {
+		console.log("delete NFT", req.body);
+		return nftItemService
+			.removeNftData(req.body.token_id)
+			.then(() => console.log("delete token success"))
 			.catch((err) => res.status(500).json(err));
 	}
 
