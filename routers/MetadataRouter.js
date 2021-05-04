@@ -8,6 +8,8 @@ module.exports = (express) => {
 
   const MetadataService = require("../services/MetadataService");
   const metadataService = new MetadataService(knex);
+  const NftItemService = require("../services/NftItemService");
+  const nftItemService = new NftItemService(knex);
 
   router.route("/profile").get(getMetadata).post(postNftData);
 
@@ -42,7 +44,6 @@ module.exports = (express) => {
     function postItemVariables() {
       console.log("posting item variables");
       let inputPrice = parseFloat(req.body.current_price).toFixed(4);
-      console.log(inputPrice);
       return nftItemService
         .addNftData(
           req.body.token_id,
@@ -57,7 +58,6 @@ module.exports = (express) => {
     Promise.all([postMetadata(), postItemVariables()])
       .then(() => {
         console.log("Post promise successful");
-        res.end("Insert success");
       })
       .catch((err) => res.status(500).json(err));
   }
