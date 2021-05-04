@@ -77,42 +77,27 @@ module.exports = (express) => {
 	}
 
 	function postNftData(req, res) {
-		function postMetadata() {
-			console.log("posting metadata", req.body);
-			return metadataService
-				.addMetadata(
-					req.body.token_id,
-					req.body.name,
-					req.body.collection,
-					req.body.asset_id,
-					req.body.image,
-					req.body.description,
-					req.body.external_url
-				)
-				.then(() => console.log("metadata input success"))
-				.catch((err) => res.status(500).json(err));
-		}
-
-		function postItemVariables() {
-			console.log("posting item variables");
-			let inputPrice = parseFloat(req.body.current_price).toFixed(4);
-			return nftItemService
-				.addNftData(
-					req.body.token_id,
-					req.body.creator,
-					req.body.owner,
-					req.body.on_sale,
-					inputPrice
-				)
-				.then(() => console.log("Post item success"))
-				.catch((err) => res.status(500).json(err));
-		}
-		Promise.all([postMetadata(), postItemVariables()])
-			.then(() => {
-				console.log("Post promise successful");
-			})
+		console.log("posting metadata", req.body);
+		let inputPrice = parseFloat(req.body.current_price).toFixed(4);
+		return metadataService
+			.addMetadata(
+				req.body.token_id,
+				req.body.name,
+				req.body.collection,
+				req.body.asset_id,
+				req.body.image,
+				req.body.description,
+				req.body.external_url,
+				req.body.creator,
+				req.body.owner,
+				req.body.on_sale,
+				inputPrice
+			)
+			.then(() => console.log("metadata input success"))
 			.catch((err) => res.status(500).json(err));
 	}
+
+
 
 	return router;
 };
