@@ -5,6 +5,7 @@ exports.up = function (knex) {
     table.foreign("token_id").references("metadata.token_id");
     table.text("creator");
     table.text("owner");
+    table.boolean("on_sale");
     table.decimal("current_price", 14, 4);
     table.timestamps(true, true);
   });

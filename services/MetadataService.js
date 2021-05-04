@@ -76,6 +76,12 @@ module.exports = class MetadataService {
       query;
     }
 
+    // if (statusArr.indexOf("Listed On Sale") > -1) {
+    //   query.where("nft_variables.on_sale", true);
+    // } else {
+    //   query;
+    // }
+
     console.log(query._statements);
     console.log("query");
     // query.where("collection", "shoes");
