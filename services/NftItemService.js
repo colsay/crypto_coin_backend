@@ -17,12 +17,34 @@ module.exports = class NftItemService {
     });
   }
 
-  addNftData(tokenId, creator, owner, currentPrice) {
+  addNftData(tokenId, creator, owner, on_sale, currentPrice) {
     return this.knex("nft_variables").insert({
       token_id: tokenId,
       creator: creator,
       owner: owner,
+      on_sale: on_sale,
       current_price: currentPrice,
     });
+  }
+
+  updateNftData(tokenId, owner, on_sale, currentPrice) {
+    return this.knex("nft_variables").where("token_id", tokenId).update({
+      owner: owner,
+      on_sale: on_sale,
+      current_price: currentPrice,
+    });
+  }
+
+  removeNftData(tokenId) {
+    return this.knex("nft_transaction")
+      .where("token_id", tokenId)
+      .del()
+      .then(() => {
+        return this.knex("nft_variables").where("token_id", tokenId).del();
+      })
+      .then(() => {
+        return this.knex("metadata").where("token_id", tokenId).del();
+      })
+      .catch((err) => console.error(err));
   }
 };
