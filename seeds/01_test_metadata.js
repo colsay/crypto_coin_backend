@@ -60,7 +60,7 @@ exports.seed = function (knex, Promise) {
           name: "Santa Claus Hat",
           collection: "festivals",
           asset_id: "923712",
-          image: "hhttps://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2.jpg",
+          image: "https://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2.jpg",
           external_url: "https://www.youtube.com/watch?v=aQeGtIzUH8Y",
           description: "Be a Santa Claus in Finland!",
         },
