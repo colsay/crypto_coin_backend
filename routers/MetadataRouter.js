@@ -12,8 +12,8 @@ module.exports = (express) => {
   const nftItemService = new NftItemService(knex);
 
   router.route("/metadata/").get(getAllMetadata).post(filterMetadata);
-  router.route("/metadata/:tokenId").get(getOneMetadata).post(postMetadata);
-  router.route("/profile").get(getMetadata).post(postNftData);
+  router.route("/metadata/:tokenId").get(getOneMetadata);
+  router.route("/profile").post(postNftData);
 
   function getOneMetadata(req, res) {
     console.log("reached metadata backend");
