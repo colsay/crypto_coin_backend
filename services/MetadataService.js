@@ -57,9 +57,8 @@ module.exports = class MetadataService {
       .catch((err) => console.log(err));
   }
 
-  filterMetadata(statusArr, collecArr) {
-    // console.log("statusArr");
-    // console.log(statusArr);
+  filterMetadata(reqbody) {
+    let { status, collection, sortoption } = reqbody;
     let query = this.knex
       .select("*")
       .from("metadata")
@@ -68,25 +67,42 @@ module.exports = class MetadataService {
         "metadata.token_id",
         "nft_variables.token_id"
       );
-
-    if (collecArr.length > 0) {
-      query.whereIn("collection", collecArr);
-    } else {
-      query;
+    //1. Collection Filters
+    if (collection.length > 0) {
+      query.whereIn("collection", collection);
     }
-
-    if (statusArr.indexOf("New") > -1) {
-      query.orderBy("metadata.token_id", "desc");
-    } else {
-      query;
-    }
-
-    if (statusArr.indexOf("Listed on Sale") > -1) {
-      console.log("listed on sale");
-
+    //2. Status Filters
+    if (status.indexOf("Listed on Sale") > -1) {
       query.where("nft_variables.on_sale", true);
-    } else {
-      query;
+    }
+
+    if (status.indexOf("New") > -1) {
+      query.orderBy("metadata.token_id", "desc").limit(20);
+    }
+    //3. Sort Options
+
+    if (sortoption === "CREATE_DATE") {
+      query.orderBy("metadata.created_at", "desc");
+    }
+
+    // if (sortoption === "LIST_DATE") {
+    //   query.orderBy("nft_variables.listed_time", "desc");
+    // }
+
+    if (sortoption === "PRICE_DESC") {
+      query.orderBy("nft_variables.current_price", "desc");
+    }
+
+    if (sortoption === "PRICE_ASC") {
+      query.orderBy("nft_variables.current_price", "asc");
+    }
+
+    if (sortoption === "ALPHABET_ASC") {
+      query.orderBy("metadata.name", "asc");
+    }
+
+    if (sortoption === "ALPHABET_DESC") {
+      query.orderBy("metadata.name", "desc");
     }
 
     // console.log(query._statements);
