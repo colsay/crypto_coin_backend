@@ -6,47 +6,32 @@ module.exports = (express) => {
   const knexConfig = require("../knexfile").development;
   const knex = require("knex")(knexConfig);
 
+  const MetadataService = require("../services/MetadataService");
+  const metadataService = new MetadataService(knex);
   const NftItemService = require("../services/NftItemService");
   const nftItemService = new NftItemService(knex);
   const NftTransactionService = require("../services/NftTransactionService");
   const nftTransactionService = new NftTransactionService(knex);
 
-  router.route("/items/undefined").get(getNftInfo);
+  router.route("/items/:tokenId").get(getNftItemData);
 
-  function getNftInfo(req, res) {
-    function getItemVariables() {
-      console.log("reached item variables backend");
-      console.log(req.params.tokenId);
-      return nftItemService
-        .listNftData(req.params.tokenId)
-        .then((data) => {
-          return data;
-        })
-        .catch((err) => res.status(500).json(err));
-    }
-
-    function getTransaction() {
-      console.log("reached NFT transaction history backend");
-      console.log(req.params.tokenId);
-      return nftTransactionService
-        .getNftTokenTransaction(req.params.tokenId)
-        .then((data) => {
-          return data;
-        })
-        .catch((err) => res.status(500).json(err));
-    }
-
-    Promise.all([getItemVariables(), getTransaction()])
-      .then(function (results) {
-        console.log("promise successful");
-        const nftItem = results[0];
-        const nftTransaction = results[1];
-        console.log(nftItem);
-        console.log(nftTransaction);
-        res.send({ item: nftItem, transaction: nftTransaction });
-      })
-      .catch((err) => res.status(500).json(err));
+  function getNftItemData(req, res) {
+    console.log("reached NFT item backend");
+    console.log(req.params.tokenId);
+    return nftTransactionService
+      .checkTokenTransaction(req.params.tokenId)
+      .then((hvData) => {
+        if (!hvData) {
+          return metadataService.listItemDataWithoutTransaction(
+            req.params.tokenId
+          );
+          //   .then((data) => {
+          //     console.log(data)
+          // }
+        } else {
+          return metadataService.listAllItemData(req.params.tokenId);
+        }
+      });
   }
-
   return router;
 };

@@ -57,6 +57,63 @@ module.exports = class MetadataService {
       .catch((err) => console.log(err));
   }
 
+  listAllItemData(tokenId) {
+    console.log("list", tokenId);
+    let query = this.knex("metadata")
+      .select(
+        "metadata.token_id",
+        "metadata.name",
+        "metadata.collection",
+        "metadata.asset_id",
+        "metadata.image",
+        "metadata.description",
+        "metadata.external_url",
+        "nft_variables.current_price",
+        "nft_variables.creator",
+        "nft_variables.owner",
+        "nft_transaction.from_address",
+        "nft_transaction.to_address",
+        "nft_transaction.price",
+        "nft_transaction.created_at"
+      )
+      .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
+      .innerJoin(
+        "nft_transaction",
+        "metadata.token_id",
+        "nft_transaction.token_id"
+      )
+      .where("metadata.token_id", tokenId);
+    return query
+      .then((data) => {
+        console.log("Output data", data);
+      })
+      .catch((err) => console.log(err));
+  }
+
+  listItemDataWithoutTransaction(tokenId) {
+    console.log("list", tokenId);
+    let query = this.knex("metadata")
+      .select(
+        "metadata.token_id",
+        "metadata.name",
+        "metadata.collection",
+        "metadata.asset_id",
+        "metadata.image",
+        "metadata.description",
+        "metadata.external_url",
+        "nft_variables.current_price",
+        "nft_variables.creator",
+        "nft_variables.owner"
+      )
+      .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
+      .where("metadata.token_id", tokenId);
+    return query
+      .then((data) => {
+        console.log("Output data", data);
+      })
+      .catch((err) => console.log(err));
+  }
+
   filterMetadata(statusArr, collecArr) {
     // console.log("statusArr");
     // console.log(statusArr);

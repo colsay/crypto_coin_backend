@@ -25,9 +25,12 @@ const cchTransactionRouter = require("./routers/transactionRouter")(express);
 const createRouter = require("./routers/CreateRouter")(express);
 const nftItemRouter = require("./routers/NftItemRouter")(express);
 const nftTransactionRouter = require("./routers/NftTransactionRouter")(express);
+const userRouter = require("./routers/UserRouter");
+
 app.use("/", metadataRouter);
 app.use("/", nftItemRouter);
 app.use("/", nftTransactionRouter);
+app.use("/", userRouter);
 app.use("/transaction", cchTransactionRouter);
 app.use("/upload", createRouter);
 

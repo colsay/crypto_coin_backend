@@ -3,6 +3,14 @@ module.exports = class NftTransferService {
     this.knex = knex;
   }
 
+  checkTokenTransaction(tokenId) {
+    return this.knex("nft_transaction")
+      .where({ token_id: tokenId })
+      .then((data) => {
+        return data.length > 0 ? true : false;
+      });
+  }
+
   getNftTokenTransaction(tokenId) {
     console.log("hi", tokenId);
     let query = this.knex
@@ -32,10 +40,10 @@ module.exports = class NftTransferService {
         "nft_transaction.created_at"
       )
       .innerJoin("metadata", "metadata.token_id", "nft_transaction.token_id")
-      .innerJoin("users", "users.id", "nft_transaction.user_id")
+      // .innerJoin("users", "users.id", "nft_transaction.user_id")
       .where("nft_transaction.from_address", address)
       .orWhere("nft_transaction.to_address", address)
-      .orderBy("created_at", "asc");
+      .orderBy("created_at", "desc");
     return query.then((data) => {
       return data;
     });
