@@ -3,7 +3,7 @@ module.exports = class MetadataService {
     this.knex = knex;
   }
 
-  listOneMetadata(tokenId) {
+  listMetadata(tokenId) {
     let query = this.knex
       .select(
         "metadata.name",
@@ -11,14 +11,9 @@ module.exports = class MetadataService {
         "metadata.asset_id",
         "metadata.image",
         "metadata.description",
-        "metadata.external_url",
-        "metadata.token_id",
-        "nft_variables.current_price",
-        "nft_variables.creator",
-        "nft_variables.owner"
+        "metadata.external_url"
       )
       .from("metadata")
-      .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
       .where("metadata.token_id", tokenId);
     return query
       .then((data) => {
@@ -114,7 +109,11 @@ module.exports = class MetadataService {
     asset_id,
     image,
     description,
-    external_url
+    external_url,
+    creator,
+    owner,
+    on_sale,
+    current_price
   ) {
     // return this.knex("test").insert({ name: "Attempt" });
     // console.log(tags);
@@ -128,6 +127,14 @@ module.exports = class MetadataService {
         description: description,
         external_url: external_url,
       })
-      .catch((err) => console.log(err));
+      .then(() => {
+        return this.knex("nft_variables").insert({
+          token_id: tokenId,
+          creator: creator,
+          owner: owner,
+          on_sale: on_sale,
+          current_price: current_price,
+        });
+      });
   }
 };
