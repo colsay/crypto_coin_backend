@@ -36,7 +36,6 @@ module.exports = class NftTransferService {
       .where("nft_transaction.from_address", address)
       .orWhere("nft_transaction.to_address", address)
       .orderBy("created_at", "asc");
-    console.log(query)
     return query.then((data) => {
       return data;
     });
