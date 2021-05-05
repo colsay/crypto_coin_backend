@@ -12,7 +12,7 @@ module.exports = (express) => {
   const nftTransactionService = new NftTransactionService(knex);
 
   router
-    .route("/item/1")
+    .route("/items/1")
     // .get(getNftInfo)
     .post(postTransaction);
 

@@ -20,7 +20,7 @@ module.exports = (express) => {
     console.log("reached metadata backend");
     console.log(req.params.tokenId);
     return metadataService
-      .listOneMetadata(req.params.tokenId)
+      .listMetadata(req.params.tokenId)
       .then((data) => {
         res.json(data);
       })
