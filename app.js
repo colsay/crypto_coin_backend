@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const express = require("express");
-const bodyParser = require("body-parser");
 
 const morgan = require("morgan");
 const cors = require("cors");
@@ -14,8 +13,8 @@ const imgur = require("imgur");
 // var bodyParser = require("body-parser");
 
 app.use(fileupload());
-// app.use(bodyParser.json());
-app.use(morgan("combined"));
+// app.use(morgan("combined"));
+app.use(morgan("short"));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
