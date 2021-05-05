@@ -15,8 +15,8 @@ module.exports = (express) => {
   router.route("/profile").get(getOwnerTransaction);
 
   function getOwnerTransaction(req, res) {
-    let address = req.body;
-    console.log(req.body);
+    let address = req.query.address;
+    console.log(req.query.address);
     console.log("reached NFT owner transaction backend");
     return nftTransactionService
       .getNftOwnerTransaction(address)
