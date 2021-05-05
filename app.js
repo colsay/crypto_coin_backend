@@ -24,11 +24,14 @@ const cchTransactionRouter = require("./routers/transactionRouter")(express);
 const createRouter = require("./routers/CreateRouter")(express);
 const nftItemRouter = require("./routers/NftItemRouter")(express);
 const nftTransactionRouter = require("./routers/NftTransactionRouter")(express);
+const userRouter = require("./routers/UserRouter")(express);
+app.use("/", userRouter);
 app.use("/", metadataRouter);
 app.use("/", nftItemRouter);
 app.use("/", nftTransactionRouter);
 app.use("/transaction", cchTransactionRouter);
 app.use("/upload", createRouter);
+
 
 app.listen(port, () => {
   console.log(`Application listening to port ${port}`);
