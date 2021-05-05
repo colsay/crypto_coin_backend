@@ -20,7 +20,7 @@ module.exports = (express) => {
     console.log("reached metadata backend");
     console.log(req.params.tokenId);
     return metadataService
-      .listMetadata(req.params.tokenId)
+      .listOneMetadata(req.params.tokenId)
       .then((data) => {
         res.json(data);
       })
@@ -63,6 +63,7 @@ module.exports = (express) => {
       .then(() => console.log("put success"))
       .catch((err) => res.status(500).json(err));
   }
+
   function burnNft(req, res) {
     console.log("delete NFT", req.body);
     return nftItemService
