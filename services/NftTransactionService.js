@@ -32,10 +32,11 @@ module.exports = class NftTransferService {
         "nft_transaction.created_at"
       )
       .innerJoin("metadata", "metadata.token_id", "nft_transaction.token_id")
-      .innerJoin("users", "users.id", "nft_transaction.user_id")
+      // .innerJoin("users", "users.id", "nft_transaction.user_id")
       .where("nft_transaction.from_address", address)
       .orWhere("nft_transaction.to_address", address)
       .orderBy("created_at", "asc");
+    console.log(query)
     return query.then((data) => {
       return data;
     });
