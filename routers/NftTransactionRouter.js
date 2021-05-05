@@ -9,6 +9,9 @@ module.exports = (express) => {
 	const NftTransactionService = require("../services/NftTransactionService");
 	const nftTransactionService = new NftTransactionService(knex);
 
+	const NftItemService = require("../services/NftItemService");
+	const nftItemService = new NftItemService(knex);
+
 	router.route("/items").post(postTransaction);
 
 	//Route for getting NFT Transaction(owner logged in)
@@ -37,6 +40,14 @@ module.exports = (express) => {
 				req.body.to_address,
 				req.body.price
 			)
+			.then(() => {
+				return nftItemService.updateNftData(
+					req.body.token_id,
+					req.body.owner,
+					req.body.on_sale,
+					req.body.current_price
+				);
+			})
 			.then(() => console.log("Post transaction success"))
 			.catch((err) => res.status(500).json(err));
 	}
