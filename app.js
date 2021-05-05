@@ -14,7 +14,7 @@ const imgur = require("imgur");
 // var bodyParser = require("body-parser");
 
 app.use(fileupload());
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.use(morgan("combined"));
 app.use(cors());
 app.use(express.json());
@@ -32,7 +32,7 @@ app.use("/transaction", cchTransactionRouter);
 app.use("/upload", createRouter);
 
 app.listen(port, () => {
-	console.log(`Application listening to port ${port}`);
+  console.log(`Application listening to port ${port}`);
 });
 
 module.exports.app = app;
