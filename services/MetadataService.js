@@ -27,7 +27,11 @@ module.exports = class MetadataService {
     asset_id,
     image,
     description,
-    external_url
+    external_url,
+    creator,
+    owner,
+    on_sale,
+    current_price
   ) {
     // return this.knex("test").insert({ name: "Attempt" });
     // console.log(tags);
@@ -47,7 +51,7 @@ module.exports = class MetadataService {
           creator: creator,
           owner: owner,
           on_sale: on_sale,
-          current_price: currentPrice,
+          current_price: current_price,
         });
       });
   }

@@ -11,7 +11,10 @@ module.exports = (express) => {
   const NftTransactionService = require("../services/NftTransactionService");
   const nftTransactionService = new NftTransactionService(knex);
 
-  router.route("/api/:tokenId").get(getNftInfo).post(postNftInfo);
+  router
+    .route("/item/1")
+    // .get(getNftInfo)
+    .post(postTransaction);
 
   router.route("/profile/:address").get(getOwnerTransaction);
 
@@ -78,41 +81,19 @@ module.exports = (express) => {
       .catch((err) => res.status(500).json(err));
   }
 
-  function postNftInfo(req, res) {
-    function postItemVariables() {
-      console.log("posting item variables");
-      let inputPrice = parseFloat(req.body.current_price).toFixed(4);
-      console.log(inputPrice);
-      return nftItemService
-        .addNftData(
-          req.params.tokenId,
-          req.body.creator,
-          req.body.owner,
-          inputPrice
-        )
-        .then(() => console.log("Post item success"))
-        .catch((err) => res.status(500).json(err));
-    }
-
-    function postTransaction() {
-      console.log("posting NFT transaction history");
-      console.log(req.params.tokenId);
-      return nftTransactionService
-        .addNftTransaction(
-          req.params.tokenId,
-          req.body.from_address,
-          req.body.to_address,
-          req.body.price
-        )
-        .then(() => console.log("Post transaction success"))
-        .catch((err) => res.status(500).json(err));
-    }
-    Promise.all([postItemVariables(), postTransaction()])
-      .then(() => {
-        console.log("Post promise successful");
-        res.end("Insert success");
-      })
+  function postTransaction(req, res) {
+    console.log("posting NFT transaction history");
+    console.log(req.params.tokenId);
+    return nftTransactionService
+      .addNftTransaction(
+        req.params.tokenId,
+        req.body.from_address,
+        req.body.to_address,
+        req.body.price
+      )
+      .then(() => console.log("Post transaction success"))
       .catch((err) => res.status(500).json(err));
   }
+
   return router;
 };
