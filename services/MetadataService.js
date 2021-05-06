@@ -32,6 +32,32 @@ module.exports = class MetadataService {
       .catch((err) => console.log(err));
   }
 
+  listSellerNftData(address) {
+    let query = this.knex
+      .select(
+        "metadata.name",
+        "metadata.collection",
+        "metadata.asset_id",
+        "metadata.image",
+        "metadata.description",
+        "metadata.external_url",
+        "metadata.token_id",
+        "nft_variables.current_price",
+        "nft_variables.creator",
+        "nft_variables.owner",
+        "users.alias"
+      )
+      .from("metadata")
+      .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
+      .innerJoin("users", "users.address", "nft_variables.owner")
+      .where("nft_variables.owner", address);
+    return query
+      .then((data) => {
+        return data;
+      })
+      .catch((err) => console.log(err));
+  }
+
   listAllMetadata() {
     let query = this.knex
       .select(

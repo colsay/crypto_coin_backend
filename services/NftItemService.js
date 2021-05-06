@@ -28,11 +28,26 @@ module.exports = class NftItemService {
   }
 
   updateNftData(tokenId, owner, on_sale, currentPrice) {
-    return this.knex("nft_variables").where("token_id", tokenId).update({
-      owner: owner,
-      on_sale: on_sale,
-      current_price: currentPrice,
-    });
+    let query = this.knex("nft_variables").where("token_id", tokenId);
+
+    if (on_sale !== false) {
+      query.update({
+        owner: owner,
+        on_sale: on_sale,
+        current_price: currentPrice,
+        listed_time: this.knex.fn.now(),
+      });
+    } else {
+      query.update({
+        owner: owner,
+        on_sale: on_sale,
+        current_price: currentPrice,
+        listed_time: null,
+      });
+    }
+    return query
+      .then((data) => console.log("updateNftDone"))
+      .catch((err) => console.log(err));
   }
 
   removeNftData(tokenId) {
