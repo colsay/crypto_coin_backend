@@ -88,7 +88,10 @@ module.exports = (express) => {
 				req.body.on_sale,
 				inputPrice
 			)
-			.then(() => console.log("metadata input success"))
+			.then(() => {
+				console.log("metadata input success")
+				res.send("metadata input success to frontend")
+			})
 			.catch((err) => res.status(500).json(err));
 	}
 

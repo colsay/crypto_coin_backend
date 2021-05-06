@@ -3,6 +3,18 @@ module.exports = class UserService {
         this.knex = knex;
     }
 
+    getUsername(address) {
+        console.log("get alias", address);
+        let query = this.knex("users")
+            .select("users.alias")
+            .where("users.address", address);
+        return query
+            .then((data) => {
+                return data;
+            })
+            .catch((err) => console.log(err));
+    }
+
     checkUser(address) {
         return this.knex("users")
             .where({ address: address })
