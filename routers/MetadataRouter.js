@@ -16,7 +16,6 @@ module.exports = (express) => {
   router.route("/metadata/:tokenId").get(getOneMetadata);
   router.route("/profile").post(postNftData).put(putNftData).delete(burnNft);
 
-  //FIXME: Enable featured DB functions
   function getHomePageMetadata(req, res) {
     // console.log(req.params.tokenId);
     let output = [];

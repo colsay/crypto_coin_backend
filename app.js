@@ -10,7 +10,6 @@ const app = express();
 const fileupload = require("express-fileupload");
 
 const imgur = require("imgur");
-// var bodyParser = require("body-parser");
 
 app.use(fileupload());
 // app.use(morgan("combined"));
@@ -25,12 +24,17 @@ const createRouter = require("./routers/CreateRouter")(express);
 const nftItemRouter = require("./routers/NftItemRouter")(express);
 const nftTransactionRouter = require("./routers/NftTransactionRouter")(express);
 const userRouter = require("./routers/UserRouter")(express);
+
 app.use("/", metadataRouter);
 app.use("/", nftItemRouter);
 app.use("/", nftTransactionRouter);
 app.use("/", userRouter);
 app.use("/transaction", cchTransactionRouter);
 app.use("/upload", createRouter);
+
+app.get("/test", function (req, res) {
+  res.send("hello world");
+});
 
 app.listen(port, () => {
   console.log(`Application listening to port ${port}`);
