@@ -6,7 +6,9 @@ module.exports = class MetadataService {
   //listNewMetadata
   //listFeaturedMetadata
   //listOneMetadata
+  //listSellerNftData
   //listAllMetadata
+  //listTransactionData
   //filterMetadata
   //addMetadata
 
