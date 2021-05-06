@@ -28,7 +28,7 @@ module.exports = (express) => {
 
 	function getAllMetadata(req, res) {
 		return metadataService
-			.listAllMetadata(req.params.tokenId)
+			.listAllMetadata()
 			.then((data) => {
 				res.json(data);
 			})
@@ -89,8 +89,8 @@ module.exports = (express) => {
 				inputPrice
 			)
 			.then(() => {
-				console.log("metadata input success")
-				res.send("metadata input success to frontend")
+				console.log("metadata input success");
+				res.send("metadata input success to frontend");
 			})
 			.catch((err) => res.status(500).json(err));
 	}
