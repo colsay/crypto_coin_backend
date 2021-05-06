@@ -25,7 +25,6 @@ const createRouter = require("./routers/CreateRouter")(express);
 const nftItemRouter = require("./routers/NftItemRouter")(express);
 const nftTransactionRouter = require("./routers/NftTransactionRouter")(express);
 const userRouter = require("./routers/UserRouter")(express);
-
 app.use("/", metadataRouter);
 app.use("/", nftItemRouter);
 app.use("/", nftTransactionRouter);

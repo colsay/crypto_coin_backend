@@ -15,7 +15,8 @@ module.exports = (express) => {
   router.route("/profile/displayname").get(getAlias).post(insertUserDatabase);
 
   function getAlias(req, res) {
-    let address = req.body.address;
+    let address = req.query.address;
+    console.log(req.query, "this is req query");
     console.log("reached users database for getting Alias");
     return userService
       .getUsername(address)
@@ -33,12 +34,15 @@ module.exports = (express) => {
     console.log("reached users database");
     return userService.checkUser(req.body.address).then((hvData) => {
       if (!hvData) {
-        return userService.addAlias(alias, address).then((data) => {
-          console.log("user username", data);
-          res.send(data);
+        return userService.addAlias(alias, address).then(() => {
+          console.log("success updating");
+          res.send(alias);
         });
       } else {
-        return userService.updateAlias(alias, address);
+        return userService.updateAlias(alias, address).then(() => {
+          console.log("success updating");
+          res.send(alias);
+        });
       }
     });
   }

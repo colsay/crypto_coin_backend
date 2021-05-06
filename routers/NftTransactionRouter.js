@@ -8,8 +8,6 @@ module.exports = (express) => {
 
   const NftTransactionService = require("../services/NftTransactionService");
   const nftTransactionService = new NftTransactionService(knex);
-  const UserService = require("../services/UserService");
-  const userService = new UserService(knex);
 
   const NftItemService = require("../services/NftItemService");
   const nftItemService = new NftItemService(knex);
