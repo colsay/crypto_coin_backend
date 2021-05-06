@@ -42,18 +42,7 @@ module.exports = class MetadataService {
 
   listOneMetadata(tokenId) {
     let query = this.knex
-      .select(
-        "metadata.name",
-        "metadata.collection",
-        "metadata.asset_id",
-        "metadata.image",
-        "metadata.description",
-        "metadata.external_url",
-        "metadata.token_id",
-        "nft_variables.current_price",
-        "nft_variables.creator",
-        "nft_variables.owner"
-      )
+      .select("*")
       .from("metadata")
       .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
       .where("metadata.token_id", tokenId);
@@ -66,16 +55,7 @@ module.exports = class MetadataService {
 
   listAllMetadata() {
     let query = this.knex
-      .select(
-        "metadata.name",
-        "metadata.collection",
-        "metadata.asset_id",
-        "metadata.image",
-        "metadata.description",
-        "metadata.external_url",
-        "metadata.token_id",
-        "nft_variables.current_price"
-      )
+      .select("*")
       .from("metadata")
       .innerJoin(
         "nft_variables",
@@ -93,22 +73,7 @@ module.exports = class MetadataService {
   listAllItemData(tokenId) {
     console.log("list", tokenId);
     let query = this.knex("metadata")
-      .select(
-        "metadata.token_id",
-        "metadata.name",
-        "metadata.collection",
-        "metadata.asset_id",
-        "metadata.image",
-        "metadata.description",
-        "metadata.external_url",
-        "nft_variables.current_price",
-        "nft_variables.creator",
-        "nft_variables.owner",
-        "nft_transaction.from_address",
-        "nft_transaction.to_address",
-        "nft_transaction.price",
-        "nft_transaction.created_at"
-      )
+      .select("*")
       .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
       .innerJoin(
         "nft_transaction",
@@ -168,9 +133,9 @@ module.exports = class MetadataService {
       case "CREATE_DATE":
         query.where("nft_variables.on_sale", true);
         break;
-      // case "LIST_DATE":
-      //   query.orderBy("nft_variables.listed_time", "desc");
-      //   break;
+      case "LIST_DATE":
+        query.orderBy("nft_variables.listed_time", "desc");
+        break;
       case "PRICE_DESC":
         query.orderBy("nft_variables.current_price", "desc");
         break;
