@@ -6,6 +6,8 @@ exports.up = function (knex) {
     table.text("creator");
     table.text("owner");
     table.boolean("on_sale");
+    table.boolean("featured");
+    table.datetime("listed_time");
     table.decimal("current_price", 14, 4);
     table.timestamps(true, true);
   });
