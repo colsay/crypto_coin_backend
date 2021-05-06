@@ -8,12 +8,16 @@ module.exports = (express) => {
 
   const MetadataService = require("../services/MetadataService");
   const metadataService = new MetadataService(knex);
+
   const NftItemService = require("../services/NftItemService");
   const nftItemService = new NftItemService(knex);
   const NftTransactionService = require("../services/NftTransactionService");
   const nftTransactionService = new NftTransactionService(knex);
 
   router.route("/items/:tokenId").get(getNftItemData);
+
+  router.route("/profiles/:walletAddress").get(getSellerNft);
+  // .post(filterMetadata);
 
   function getNftItemData(req, res) {
     console.log("reached NFT item backend");
@@ -45,5 +49,28 @@ module.exports = (express) => {
         }
       });
   }
+
+  function getSellerNft(req, res) {
+    return metadataService
+      .listSellerNftData(req.params.walletAddress)
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => res.status(500).json(err));
+  }
+
+  // function filterMetadata(req, res) {
+  //   console.log("filter metadata");
+  //   console.log(req.body);
+  //   return metadataService
+  //     .filterMetadata(req.body)
+  //     .then((data) => {
+  //       // console.log("filterdata");
+  //       // console.log(data);
+  //       res.json(data);
+  //     })
+  //     .catch((err) => res.status(500).json(err));
+  // }
+
   return router;
 };
