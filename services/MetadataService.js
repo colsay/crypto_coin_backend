@@ -80,46 +80,29 @@ module.exports = class MetadataService {
       query.orderBy("metadata.token_id", "desc").limit(20);
     }
     //3. Sort Options
-
-    if (sortoption === "CREATE_DATE") {
-      query.orderBy("metadata.created_at", "desc");
-    }
-
-    // if (sortoption === "LIST_DATE") {
-    //   query.orderBy("nft_variables.listed_time", "desc");
-    // }
-
-    if (sortoption === "PRICE_DESC") {
-      query.orderBy("nft_variables.current_price", "desc");
-    }
-
-    if (sortoption === "PRICE_ASC") {
-      query.orderBy("nft_variables.current_price", "asc");
-    }
-
-    if (sortoption === "ALPHABET_ASC") {
-      query.orderBy("metadata.name", "asc");
-    }
-
-    if (sortoption === "ALPHABET_DESC") {
-      query.orderBy("metadata.name", "desc");
+    switch (sortoption) {
+      case "CREATE_DATE":
+        query.where("nft_variables.on_sale", true);
+        break;
+      // case "LIST_DATE":
+      //   query.orderBy("nft_variables.listed_time", "desc");
+      //   break;
+      case "PRICE_DESC":
+        query.orderBy("nft_variables.current_price", "desc");
+        break;
+      case "PRICE_ASC":
+        query.orderBy("nft_variables.current_price", "asc");
+        break;
+      case "ALPHABET_ASC":
+        query.orderBy("metadata.name", "asc");
+        break;
+      case "ALPHABET_DESC":
+        query.orderBy("metadata.name", "desc");
+        break;
     }
 
     // console.log(query._statements);
     // console.log("query");
-
-    // query.where("collection", "shoes");
-
-    // switch (expr) {
-    //   case "Oranges":
-    //     console.log("Oranges are $0.59 a pound.");
-    //     break;
-    //   case "Papayas":
-    //     console.log("Mangoes and papayas are $2.79 a pound.");
-    //     break;
-    //   default:
-    //     console.error("metaservice switch error");
-    // }
 
     return query
       .then((data) => {
