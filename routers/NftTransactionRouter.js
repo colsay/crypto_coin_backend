@@ -11,14 +11,17 @@ module.exports = (express) => {
   const UserService = require("../services/UserService");
   const userService = new UserService(knex);
 
-  router.route("/items/undefined").post(postTransaction);
+  const NftItemService = require("../services/NftItemService");
+  const nftItemService = new NftItemService(knex);
+
+  router.route("/items").post(postTransaction);
 
   //Route for getting NFT Transaction(owner logged in)
   router.route("/profile").get(getOwnerTransaction);
 
   function getOwnerTransaction(req, res) {
-    let address = res.query.address;
-    console.log(res.query.address);
+    let address = req.query.address;
+    console.log(req.query.address);
     console.log("reached NFT owner transaction backend");
     return nftTransactionService
       .getNftOwnerTransaction(address)
@@ -46,9 +49,6 @@ module.exports = (express) => {
           req.body.on_sale,
           req.body.current_price
         );
-      })
-      .then(() => {
-        return userService.addAlias(req.body.address);
       })
       .then(() => console.log("Post transaction success"))
       .catch((err) => res.status(500).json(err));

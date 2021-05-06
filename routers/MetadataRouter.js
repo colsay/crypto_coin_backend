@@ -17,8 +17,7 @@ module.exports = (express) => {
   router.route("/profile").post(postNftData).put(putNftData).delete(burnNft);
 
   function getOneMetadata(req, res) {
-    console.log("reached metadata backend");
-    console.log(req.params.tokenId);
+    // console.log(req.params.tokenId);
     return metadataService
       .listOneMetadata(req.params.tokenId)
       .then((data) => {
@@ -28,7 +27,6 @@ module.exports = (express) => {
   }
 
   function getAllMetadata(req, res) {
-    console.log("reached metadata backend");
     return metadataService
       .listAllMetadata(req.params.tokenId)
       .then((data) => {
@@ -42,7 +40,7 @@ module.exports = (express) => {
     console.log("filter metadata");
     console.log(req.body);
     return metadataService
-      .filterMetadata(req.body.status, req.body.collection)
+      .filterMetadata(req.body)
       .then((data) => {
         // console.log("filterdata");
         // console.log(data);

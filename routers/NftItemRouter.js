@@ -18,18 +18,30 @@ module.exports = (express) => {
   function getNftItemData(req, res) {
     console.log("reached NFT item backend");
     console.log(req.params.tokenId);
-    return nftTransactionService
-      .checkTokenTransaction(req.params.tokenId)
+    let nftData;
+    let output = [];
+    return metadataService
+      .listOneMetadata(req.params.tokenId)
+      .then((data) => {
+        output[0] = data[0];
+      })
+      .then(() => {
+        return nftTransactionService.checkTokenTransaction(req.params.tokenId);
+      })
       .then((hvData) => {
-        if (!hvData) {
-          return metadataService.listItemDataWithoutTransaction(
-            req.params.tokenId
-          );
-          //   .then((data) => {
-          //     console.log(data)
-          // }
+        console.log(hvData);
+        if (hvData) {
+          return metadataService
+            .listTransactionData(req.params.tokenId)
+            .then((data) => {
+              output[1] = data;
+              console.log(output);
+              res.json(output);
+            });
         } else {
-          return metadataService.listAllItemData(req.params.tokenId);
+          output.nftdata = nftData;
+          console.log(output);
+          res.json(output);
         }
       });
   }

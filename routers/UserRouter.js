@@ -12,7 +12,19 @@ module.exports = (express) => {
   const userService = new UserService(knex);
 
   //Route for getting NFT Transaction(owner logged in)
-  router.route("/profile/displayname").post(insertUserDatabase);
+  router.route("/profile/displayname").get(getAlias).post(insertUserDatabase);
+
+  function getAlias(req, res) {
+    let address = req.body.address;
+    console.log("reached users database for getting Alias");
+    return userService
+      .getUsername(address)
+      .then((data) => {
+        console.log("user username", data);
+        res.send(data);
+      })
+      .catch((err) => res.status(500).json(err));
+  }
 
   function insertUserDatabase(req, res) {
     let address = req.body.address;
@@ -21,7 +33,10 @@ module.exports = (express) => {
     console.log("reached users database");
     return userService.checkUser(req.body.address).then((hvData) => {
       if (!hvData) {
-        return userService.addAlias(alias, address);
+        return userService.addAlias(alias, address).then((data) => {
+          console.log("user username", data);
+          res.send(data);
+        });
       } else {
         return userService.updateAlias(alias, address);
       }
