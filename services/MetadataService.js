@@ -3,10 +3,42 @@ module.exports = class MetadataService {
     this.knex = knex;
   }
 
+  //listNewMetadata
+  //listFeaturedMetadata
   //listOneMetadata
   //listAllMetadata
   //filterMetadata
   //addMetadata
+
+  listNewMetadata() {
+    let query = this.knex
+      .select("*")
+      .from("metadata")
+      .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
+      .orderBy("metadata.token_id", "desc")
+      .limit(20);
+
+    return query
+      .then((data) => {
+        return data;
+      })
+      .catch((err) => console.log(err));
+  }
+
+  listFeaturedMetadata() {
+    let query = this.knex
+      .select("*")
+      .from("metadata")
+      .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
+      .where("nft_variables.featured", true)
+      .orderBy("metadata.token_id", "desc");
+
+    return query
+      .then((data) => {
+        return data;
+      })
+      .catch((err) => console.log(err));
+  }
 
   listOneMetadata(tokenId) {
     let query = this.knex
@@ -50,6 +82,7 @@ module.exports = class MetadataService {
         "metadata.token_id",
         "nft_variables.token_id"
       );
+
     return query
       .then((data) => {
         return data;
