@@ -11,8 +11,8 @@ module.exports = (express) => {
   const UserService = require("../services/UserService");
   const userService = new UserService(knex);
 
-  //Route for getting NFT Transaction(owner logged in)
-  router.route("/profile/displayname").get(getAlias).post(insertUserDatabase);
+  // Route: "/profile/displayname"
+  router.route("/").get(getAlias).post(insertUserDatabase);
 
   function getAlias(req, res) {
     let address = req.query.address;
