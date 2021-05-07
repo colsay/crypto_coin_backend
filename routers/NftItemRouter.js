@@ -93,15 +93,5 @@ module.exports = (express) => {
       });
   }
 
-  //TODO: In app.js
-  // function getSellerNft(req, res) {
-  //   return metadataService
-  //     .listSellerNftData(req.params.walletAddress)
-  //     .then((data) => {
-  //       res.json(data);
-  //     })
-  //     .catch((err) => res.status(500).json(err));
-  // }
-
   return router;
 };
