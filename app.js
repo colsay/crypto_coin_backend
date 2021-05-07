@@ -39,9 +39,10 @@ app.get("/test", function (req, res) {
 });
 
 //TODO: Need to place somewhere else
-app.get("/profile/:walletAddress", getSellerNft);
+app.post("/profile/:walletAddress", getSellerNft);
 function getSellerNft(req, res) {
   console.log("getsellerNFT");
+  console.log(req.body);
   return metadataService
     .listSellerNftData(req.params.walletAddress)
     .then((data) => {
