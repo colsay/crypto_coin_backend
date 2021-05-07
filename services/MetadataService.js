@@ -3,57 +3,7 @@ module.exports = class MetadataService {
     this.knex = knex;
   }
 
-  //listNewMetadata
-  //listFeaturedMetadata
-  //listOneMetadata
-  //listSellerNftData
-  //listAllMetadata
-  //listTransactionData
-  //filterMetadata
   //addMetadata
-
-  listNewMetadata() {
-    let query = this.knex
-      .select("*")
-      .from("metadata")
-      .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
-      .orderBy("metadata.token_id", "desc")
-      .limit(20);
-
-    return query
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => console.log(err));
-  }
-
-  listFeaturedMetadata() {
-    let query = this.knex
-      .select("*")
-      .from("metadata")
-      .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
-      .where("nft_variables.featured", true)
-      .orderBy("metadata.token_id", "desc");
-
-    return query
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => console.log(err));
-  }
-
-  listOneMetadata(tokenId) {
-    let query = this.knex
-      .select("*")
-      .from("metadata")
-      .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
-      .where("metadata.token_id", tokenId);
-    return query
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => console.log(err));
-  }
 
   listSellerNftData(address) {
     let query = this.knex
@@ -81,112 +31,41 @@ module.exports = class MetadataService {
       .catch((err) => console.log(err));
   }
 
-  listAllMetadata() {
-    let query = this.knex
-      .select("*")
-      .from("metadata")
-      .innerJoin(
-        "nft_variables",
-        "metadata.token_id",
-        "nft_variables.token_id"
-      );
+  // listAllItemData(tokenId) {
+  //   console.log("list", tokenId);
+  //   let query = this.knex("metadata")
+  //     .select("*")
+  //     .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
+  //     .innerJoin(
+  //       "nft_transaction",
+  //       "metadata.token_id",
+  //       "nft_transaction.token_id"
+  //     )
+  //     .where("metadata.token_id", tokenId);
+  //   return query
+  //     .then((data) => {
+  //       console.log("Output data", data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // }
 
-    return query
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => console.log(err));
-  }
-
-  listAllItemData(tokenId) {
-    console.log("list", tokenId);
-    let query = this.knex("metadata")
-      .select("*")
-      .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
-      .innerJoin(
-        "nft_transaction",
-        "metadata.token_id",
-        "nft_transaction.token_id"
-      )
-      .where("metadata.token_id", tokenId);
-    return query
-      .then((data) => {
-        console.log("Output data", data);
-      })
-      .catch((err) => console.log(err));
-  }
-
-  listTransactionData(tokenId) {
-    console.log("list", tokenId);
-    let query = this.knex("nft_transaction")
-      .select(
-        "nft_transaction.from_address",
-        "nft_transaction.to_address",
-        "nft_transaction.price",
-        "nft_transaction.created_at"
-      )
-      .innerJoin("metadata", "metadata.token_id", "nft_transaction.token_id")
-      .where("metadata.token_id", tokenId);
-    return query
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => console.log(err));
-  }
-
-  filterMetadata(reqbody) {
-    let { status, collection, sortoption } = reqbody;
-    let query = this.knex
-      .select("*")
-      .from("metadata")
-      .innerJoin(
-        "nft_variables",
-        "metadata.token_id",
-        "nft_variables.token_id"
-      );
-    //1. Collection Filters
-    if (collection.length > 0) {
-      query.whereIn("collection", collection);
-    }
-    //2. Status Filters
-    if (status.indexOf("Listed on Sale") > -1) {
-      query.where("nft_variables.on_sale", true);
-    }
-
-    if (status.indexOf("New") > -1) {
-      query.orderBy("metadata.token_id", "desc").limit(20);
-    }
-    //3. Sort Options
-    switch (sortoption) {
-      case "CREATE_DATE":
-        query.where("nft_variables.on_sale", true);
-        break;
-      case "LIST_DATE":
-        query.orderBy("nft_variables.listed_time", "desc");
-        break;
-      case "PRICE_DESC":
-        query.orderBy("nft_variables.current_price", "desc");
-        break;
-      case "PRICE_ASC":
-        query.orderBy("nft_variables.current_price", "asc");
-        break;
-      case "ALPHABET_ASC":
-        query.orderBy("metadata.name", "asc");
-        break;
-      case "ALPHABET_DESC":
-        query.orderBy("metadata.name", "desc");
-        break;
-    }
-
-    // console.log(query._statements);
-    // console.log("query");
-
-    return query
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => console.log(err));
-  }
+  // listTransactionData(tokenId) {
+  //   console.log("list", tokenId);
+  //   let query = this.knex("nft_transaction")
+  //     .select(
+  //       "nft_transaction.from_address",
+  //       "nft_transaction.to_address",
+  //       "nft_transaction.price",
+  //       "nft_transaction.created_at"
+  //     )
+  //     .innerJoin("metadata", "metadata.token_id", "nft_transaction.token_id")
+  //     .where("metadata.token_id", tokenId);
+  //   return query
+  //     .then((data) => {
+  //       return data;
+  //     })
+  //     .catch((err) => console.log(err));
+  // }
 
   addMetadata(
     tokenId,
