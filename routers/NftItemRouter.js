@@ -17,7 +17,7 @@ module.exports = (express) => {
   //Route: "/items"
   router.route("/").get(getAllNFTItems).post(getFilteredNFTItems);
   router.route("/homepage").get(getHomePageItems);
-  router.route("/:tokenId").get(getOneNFTItem);
+  router.route("/asset/:tokenId").get(getOneNFTItem);
   // router.route("/profile/:walletAddress").get(getSellerNft); //FIXME: Moved
 
   function getHomePageItems(req, res) {

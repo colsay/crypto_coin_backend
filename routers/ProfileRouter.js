@@ -14,7 +14,9 @@ module.exports = (express) => {
 	// router.route("/metadata/home").get(getHomePageMetadata);
 	// router.route("/metadata/").get(getAllMetadata).post(filterMetadata);
 	// router.route("/metadata/:tokenId").get(getOneMetadata);
-	router.route("/profile").post(postNftData).put(putNftData).delete(burnNft);
+	router.route("/").post(postNftData).put(putNftData).delete(burnNft);
+	router.route("/seller/:walletAddress").get(getSellerNft)
+
 
 	function putNftData(req, res) {
 		console.log(req.body);
@@ -62,5 +64,14 @@ module.exports = (express) => {
 			.catch((err) => res.status(500).json(err));
 	}
 
+	function getSellerNft(req, res) {
+		console.log("getsellerNFT");
+		return metadataService
+			.listSellerNftData(req.params.walletAddress)
+			.then((data) => {
+				res.json(data);
+			})
+			.catch((err) => res.status(500).json(err));
+	};
 	return router;
-};
+}
