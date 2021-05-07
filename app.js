@@ -21,7 +21,6 @@ const nftItemRouter = require("./routers/NftItemRouter")(express);
 const nftTransactionRouter = require("./routers/NftTransactionRouter")(express);
 const userRouter = require("./routers/UserRouter")(express);
 
-
 app.use("/profile", profileRouter);
 app.use("/items", nftItemRouter);
 app.use("/nfttransaction", nftTransactionRouter);
@@ -32,7 +31,6 @@ app.use("/upload", createRouter);
 app.get("/test", function (req, res) {
   res.send("hello world");
 });
-
 
 app.listen(port, () => {
   console.log(`Application listening to port ${port}`);

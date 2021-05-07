@@ -64,15 +64,29 @@ module.exports = class NftItemService {
   }
 
   filterNFTItems(reqbody) {
-    let { status, collection, sortoption } = reqbody;
-    let query = this.knex
-      .select("*")
-      .from("metadata")
-      .innerJoin(
-        "nft_variables",
-        "metadata.token_id",
-        "nft_variables.token_id"
-      );
+    let query;
+    let { status, collection, sortoption, isSeller, sellerAddress } = reqbody;
+    if (isSeller === true) {
+      query = this.knex
+        .select("*")
+        .from("metadata")
+        .innerJoin(
+          "nft_variables",
+          "metadata.token_id",
+          "nft_variables.token_id"
+        )
+        .innerJoin("users", "users.address", "nft_variables.owner")
+        .where("nft_variables.owner", sellerAddress);
+    } else {
+      query = this.knex
+        .select("*")
+        .from("metadata")
+        .innerJoin(
+          "nft_variables",
+          "metadata.token_id",
+          "nft_variables.token_id"
+        );
+    }
     //1. Collection Filters
     if (collection.length > 0) {
       query.whereIn("collection", collection);

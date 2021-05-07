@@ -15,12 +15,11 @@ module.exports = (express) => {
   const nftTransactionService = new NftTransactionService(knex);
 
   //Route: "/items"
-  router.route("/").get(getAllNFTItems).post(getFilteredNFTItems);
-  router.route("/homepage").get(getHomePageItems);
-  router.route("/asset/:tokenId").get(getOneNFTItem);
-  // router.route("/profile/:walletAddress").get(getSellerNft); //FIXME: Moved
+  router.route("/").get(getAllNFT).post(getFilteredNFT);
+  router.route("/homepage").get(getHomePageNFT);
+  router.route("/asset/:tokenId").get(getOneNFT);
 
-  function getHomePageItems(req, res) {
+  function getHomePageNFT(req, res) {
     let output = [];
     return nftItemService
       .getNFTSortedNew()
@@ -40,7 +39,7 @@ module.exports = (express) => {
       .catch((err) => res.status(500).json(err));
   }
 
-  function getAllNFTItems(req, res) {
+  function getAllNFT(req, res) {
     return nftItemService
       .listAllNFTItems()
       .then((data) => {
@@ -50,7 +49,7 @@ module.exports = (express) => {
   }
 
   //POST req for GETTING filtered data
-  function getFilteredNFTItems(req, res) {
+  function getFilteredNFT(req, res) {
     console.log("filter metadata");
     console.log(req.body);
     return nftItemService
@@ -63,7 +62,7 @@ module.exports = (express) => {
       .catch((err) => res.status(500).json(err));
   }
 
-  function getOneNFTItem(req, res) {
+  function getOneNFT(req, res) {
     console.log(req.params.tokenId);
     let nftData;
     let output = [];
@@ -94,6 +93,7 @@ module.exports = (express) => {
       });
   }
 
+  //TODO: In app.js
   // function getSellerNft(req, res) {
   //   return metadataService
   //     .listSellerNftData(req.params.walletAddress)
