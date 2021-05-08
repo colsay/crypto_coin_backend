@@ -6,8 +6,9 @@ module.exports = (express) => {
   const knexConfig = require("../knexfile").development;
   const knex = require("knex")(knexConfig);
 
-  const MetadataService = require("../services/MetadataService");
-  const metadataService = new MetadataService(knex);
+  const ProfileService = require("../services/ProfileService");
+  const profileService = new ProfileService(knex);
+
   const NftItemService = require("../services/NftItemService");
   const nftItemService = new NftItemService(knex);
 
@@ -16,7 +17,7 @@ module.exports = (express) => {
 
   function putNftData(req, res) {
     console.log(req.body);
-    return nftItemService
+    return profileService
       .updateNftData(
         req.body.token_id,
         req.body.owner,
@@ -29,7 +30,7 @@ module.exports = (express) => {
 
   function burnNft(req, res) {
     console.log("delete NFT", req.body);
-    return nftItemService
+    return profileService
       .removeNftData(req.body.token_id)
       .then(() => console.log("delete token success"))
       .catch((err) => res.status(500).json(err));
@@ -39,8 +40,8 @@ module.exports = (express) => {
     console.log("posting metadata", req.body);
     // let inputPrice = parseFloat(req.body.current_price).toFixed(4);
     let inputPrice = 0;
-    return metadataService
-      .addMetadata(
+    return profileService
+      .postNFTdata(
         req.body.token_id,
         req.body.name,
         req.body.collection,
