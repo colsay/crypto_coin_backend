@@ -5,13 +5,24 @@ module.exports = (express) => {
 	const rp = require("request-promise");
 	require("dotenv").config();
 
+	// var upload = multer({
+	// 	fileFilter: (req, file, cb) => {
+	// 		if (file.mimetype == "image/png") {
+	// 			cb(null, true);
+	// 		} else {
+	// 			cb(null, false);
+	// 			return cb(new Error("Allowed only .png"));
+	// 		}
+	// 	},
+	// });
+
 	var upload = multer({
 		fileFilter: (req, file, cb) => {
-			if (file.mimetype == "image/png") {
-				cb(null, true);
-			} else {
+			if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
 				cb(null, false);
-				return cb(new Error("Allowed only .png"));
+				return cb(new Error("File must be an image or gif"));
+			} else {
+				cb(null, true);
 			}
 		},
 	});
@@ -36,11 +47,12 @@ module.exports = (express) => {
 		upload.single("image"),
 		async function (req, res) {
 			// console.log("hi", req);
+			let imgurURL;
 			const file = req.files.file;
 			console.log("hi", file);
-			// const encodedFile = file.data.toString("base64");
-			// console.log("g9g", encodedFile);
+			const encodedFile = file.data.toString("base64");
 
+			// //-----uncm below to enable imgur upload-----
 			// var options = {
 			// 	method: "POST",
 			// 	url: "https://api.imgur.com/3/image",
@@ -55,11 +67,14 @@ module.exports = (express) => {
 			// await rp(options, function (error, response) {
 			// 	if (error) throw new Error(error);
 			// 	let imageURL = response.body;
-			// 	let imgurURL = JSON.parse(imageURL).data.link;
-			// 	console.log(imgurURL);
+			// 	imgurURL = JSON.parse(imageURL).data.link;
+			// 	console.log(1, imgurURL);
 			// });
+			// console.log(2, imgurURL);
+			// res.send(imgurURL);
+			// //-----uncm above to enable imgur upload-----
+
 			res.send("uploadimg");
-			// res.send("helqowf");
 		}
 	);
 
