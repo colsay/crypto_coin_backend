@@ -6,9 +6,6 @@ module.exports = (express) => {
   const knexConfig = require("../knexfile").development;
   const knex = require("knex")(knexConfig);
 
-  const MetadataService = require("../services/MetadataService");
-  const metadataService = new MetadataService(knex);
-
   const NftItemService = require("../services/NftItemService");
   const nftItemService = new NftItemService(knex);
   const NftTransactionService = require("../services/NftTransactionService");
