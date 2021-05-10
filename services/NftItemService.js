@@ -24,7 +24,8 @@ module.exports = class NftItemService {
       .from("metadata")
       .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
       .where("nft_variables.featured", true)
-      .orderBy("metadata.token_id", "desc");
+      .orderBy("metadata.token_id", "desc")
+      .limit(20);
 
     return query
       .then((data) => {
@@ -33,22 +34,22 @@ module.exports = class NftItemService {
       .catch((err) => console.log(err));
   }
 
-  listAllNFTItems() {
-    let query = this.knex
-      .select("*")
-      .from("metadata")
-      .innerJoin(
-        "nft_variables",
-        "metadata.token_id",
-        "nft_variables.token_id"
-      );
+  // listAllNFTItems() {
+  //   let query = this.knex
+  //     .select("*")
+  //     .from("metadata")
+  //     .innerJoin(
+  //       "nft_variables",
+  //       "metadata.token_id",
+  //       "nft_variables.token_id"
+  //     );
 
-    return query
-      .then((data) => {
-        return data;
-      })
-      .catch((err) => console.log(err));
-  }
+  //   return query
+  //     .then((data) => {
+  //       return data;
+  //     })
+  //     .catch((err) => console.log(err));
+  // }
 
   listOneNFTItem(tokenId) {
     let query = this.knex
@@ -96,8 +97,8 @@ module.exports = class NftItemService {
       query.where("nft_variables.on_sale", true);
     }
 
-    if (status.indexOf("New") > -1) {
-      query.orderBy("metadata.token_id", "desc").limit(20);
+    if (status.indexOf("Featured") > -1) {
+      query.where("nft_variables.featured", true);
     }
     //3. Sort Options
     switch (sortoption) {
