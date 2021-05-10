@@ -1,4 +1,4 @@
-module.exports = class NftItemService {
+module.exports = class ProfileService {
   constructor(knex) {
     this.knex = knex;
   }

@@ -9,8 +9,8 @@ module.exports = (express) => {
   const NftTransactionService = require("../services/NftTransactionService");
   const nftTransactionService = new NftTransactionService(knex);
 
-  const NftItemService = require("../services/NftItemService");
-  const nftItemService = new NftItemService(knex);
+  const ProfileService = require("../services/ProfileService");
+  const profileService = new ProfileService(knex);
 
   router.route("/items").post(postTransaction);
 
@@ -41,7 +41,7 @@ module.exports = (express) => {
         req.body.price
       )
       .then(() => {
-        return nftItemService.updateNftData(
+        return profileService.updateNftData(
           req.body.token_id,
           req.body.owner,
           req.body.on_sale,
