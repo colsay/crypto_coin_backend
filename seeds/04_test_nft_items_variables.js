@@ -75,6 +75,20 @@ exports.seed = function (knex, Promise) {
           on_sale: false,
           current_price: "0.67576327",
         },
+        {
+          token_id: 11,
+          creator: "0x229866584D5B6FCfd2D4e97E962Db7db86B6317F",
+          owner: "0xE663c1f7bBd2a35C442f469eb358437F1Fbe523D",
+          on_sale: false,
+          current_price: "0.67576327",
+        },
+        {
+          token_id: 12,
+          creator: "0x229866584D5B6FCfd2D4e97E962Db7db86B6317F",
+          owner: "0xE663c1f7bBd2a35C442f469eb358437F1Fbe523D",
+          on_sale: false,
+          current_price: "0.67576327",
+        },
       ]);
     });
 };
