@@ -48,7 +48,10 @@ module.exports = (express) => {
           req.body.current_price
         );
       })
-      .then(() => console.log("Post transaction success"))
+      .then(() => {
+        console.log("Post transaction success");
+        res.send("Post transaction success");
+      })
       .catch((err) => res.status(500).json(err));
   }
 
