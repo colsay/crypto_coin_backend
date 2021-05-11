@@ -33,6 +33,7 @@ module.exports = (express) => {
   function postTransaction(req, res) {
     console.log("posting NFT transaction history");
     console.log(req.body.token_id);
+    console.log(req.body.hash);
     return nftTransactionService
       .addNftTransaction(
         req.body.token_id,
