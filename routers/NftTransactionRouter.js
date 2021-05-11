@@ -38,7 +38,8 @@ module.exports = (express) => {
         req.body.token_id,
         req.body.from_address,
         req.body.to_address,
-        req.body.price
+        req.body.price,
+        req.body.hash
       )
       .then(() => {
         return profileService.updateNftData(

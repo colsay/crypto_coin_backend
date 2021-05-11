@@ -8,6 +8,7 @@ exports.up = function (knex) {
     table.string("from_address");
     table.string("to_address");
     table.decimal("price", 14, 4);
+    table.string("hash");
     table.timestamps(false, true);
   });
 };
