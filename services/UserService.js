@@ -7,7 +7,7 @@ module.exports = class UserService {
     console.log("get alias", address);
     let query = this.knex("users")
       .select("users.alias")
-      .where("users.address", address);
+      .where("users.address", "ilike", `%${address}%`);
     return query
       .then((data) => {
         return data;
