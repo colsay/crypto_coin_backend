@@ -8,7 +8,7 @@ module.exports = class ProfileService {
       .select("*")
       .from("metadata")
       .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
-      .where("nft_variables.owner", walletAddress);
+      .where("nft_variables.owner", "ilike", `%${walletAddress}%`);
 
     return query
       .then((data) => {
