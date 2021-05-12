@@ -3,6 +3,33 @@ module.exports = class ProfileService {
     this.knex = knex;
   }
 
+  listOwnNft(walletAddress) {
+    let query = this.knex
+      .select("*")
+      .from("metadata")
+      .innerJoin("nft_variables", "metadata.token_id", "nft_variables.token_id")
+      .where("nft_variables.owner", walletAddress);
+
+    return query
+      .then((data) => {
+        return data;
+      })
+      .catch((err) => console.log(err));
+  }
+
+  removeNftData(tokenId) {
+    return this.knex("nft_transaction")
+      .where("token_id", tokenId)
+      .del()
+      .then(() => {
+        return this.knex("nft_variables").where("token_id", tokenId).del();
+      })
+      .then(() => {
+        return this.knex("metadata").where("token_id", tokenId).del();
+      })
+      .catch((err) => console.error(err));
+  }
+
   updateNftData(tokenId, owner, on_sale, currentPrice) {
     let query = this.knex("nft_variables").where("token_id", tokenId);
 
