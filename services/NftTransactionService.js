@@ -18,7 +18,8 @@ module.exports = class NftTransferService {
         "nft_transaction.from_address",
         "nft_transaction.to_address",
         "nft_transaction.price",
-        "nft_transaction.created_at"
+        "nft_transaction.created_at",
+        "nft_transaction.hash"
       )
       .from("nft_transaction")
       .where("nft_transaction.token_id", tokenId)
@@ -37,7 +38,8 @@ module.exports = class NftTransferService {
         "nft_transaction.from_address",
         "nft_transaction.to_address",
         "nft_transaction.price",
-        "nft_transaction.created_at"
+        "nft_transaction.created_at",
+        "nft_transaction.hash"
       )
       .innerJoin("metadata", "metadata.token_id", "nft_transaction.token_id")
       // .innerJoin("users", "users.id", "nft_transaction.user_id")
@@ -49,12 +51,13 @@ module.exports = class NftTransferService {
     });
   }
 
-  addNftTransaction(tokenId, from_address, to_address, price) {
+  addNftTransaction(tokenId, from_address, to_address, price, hash) {
     return this.knex("nft_transaction").insert({
       token_id: tokenId,
       from_address: from_address,
       to_address: to_address,
       price: price,
+      hash: hash,
     });
   }
 };
