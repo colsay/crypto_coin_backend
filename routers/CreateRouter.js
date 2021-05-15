@@ -52,29 +52,29 @@ module.exports = (express) => {
 			console.log("hi", file);
 			const encodedFile = file.data.toString("base64");
 
-			// //-----uncm below to enable imgur upload-----
-			// var options = {
-			// 	method: "POST",
-			// 	url: "https://api.imgur.com/3/image",
-			// 	headers: {
-			// 		Authorization: `Client-ID ${process.env.imgurCID}`,
-			// 	},
-			// 	formData: {
-			// 		image: encodedFile,
-			// 	},
-			// };
+			//-----uncm below to enable imgur upload-----
+			var options = {
+				method: "POST",
+				url: "https://api.imgur.com/3/image",
+				headers: {
+					Authorization: `Client-ID ${process.env.imgurCID}`,
+				},
+				formData: {
+					image: encodedFile,
+				},
+			};
 
-			// await rp(options, function (error, response) {
-			// 	if (error) throw new Error(error);
-			// 	let imageURL = response.body;
-			// 	imgurURL = JSON.parse(imageURL).data.link;
-			// 	console.log(1, imgurURL);
-			// });
-			// console.log(2, imgurURL);
-			// res.send(imgurURL);
-			// //-----uncm above to enable imgur upload-----
+			await rp(options, function (error, response) {
+				if (error) throw new Error(error);
+				let imageURL = response.body;
+				imgurURL = JSON.parse(imageURL).data.link;
+				console.log(1, imgurURL);
+			});
+			console.log(2, imgurURL);
+			res.send(imgurURL);
+			//-----uncm above to enable imgur upload-----
 
-			res.send("uploadimg");
+			// res.send("uploadimg");
 		}
 	);
 
