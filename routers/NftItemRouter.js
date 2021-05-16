@@ -116,7 +116,7 @@ module.exports = (express) => {
         if (hvData) {
           return userService.getUsername(output[0].owner).then((data) => {
             // console.log(data);
-            output[0].owner = data[0].alias;
+            output[0].alias = data[0].alias;
 
             res.json(output);
           });
