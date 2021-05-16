@@ -102,7 +102,7 @@ module.exports = (express) => {
           return userService.getUsername(output[0].creator).then((data) => {
             // console.log(data);
             // output[0].creator = data;
-            output[0].creator = data[0].alias;
+            output[0].aliasCreator = data[0].alias;
           });
         } else {
           output.nftdata = nftData;
@@ -116,7 +116,7 @@ module.exports = (express) => {
         if (hvData) {
           return userService.getUsername(output[0].owner).then((data) => {
             // console.log(data);
-            output[0].owner = data[0].alias;
+            output[0].aliasOwner = data[0].alias;
 
             res.json(output);
           });
